@@ -1,30 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Charity.Mvc
 {
-	public class Startup
+    public class Startup
 	{
-		public Startup(IConfiguration configuration)
-		{
-			Configuration = configuration;
-		}
-
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+		}
+
+
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddDbContext<CharityDonationContext>(builder =>
+			{
+				//builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+				builder.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=charity-donation;Integrated Security=True");
+			});
+
 			services.AddMvc();
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
 			if (env.IsDevelopment())
@@ -38,6 +40,8 @@ namespace Charity.Mvc
 			}
 
 			app.UseStaticFiles();
+
+			app.UseAuthentication();
 
 			app.UseMvc(routes =>
 			{
