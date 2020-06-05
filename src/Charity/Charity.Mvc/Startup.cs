@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Charity.Mvc.Services;
+using Charity.Mvc.Services.Interfaces;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,9 +22,16 @@ namespace Charity.Mvc
 		{
 			services.AddDbContext<CharityDonationContext>(builder =>
 			{
-				//builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-				builder.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=charity-donation;Integrated Security=True");
+				builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 			});
+
+			services.AddScoped<ICategoryDonationService, CategoryDonationService>();
+			
+			services.AddScoped<ICategoryService, CategoryService>();
+
+			services.AddScoped<IDonationService, DonationService>();
+			
+			services.AddScoped<IInstitutionService, InstitutionService>();
 
 			services.AddMvc();
 		}
