@@ -192,7 +192,7 @@ namespace Charity.Mvc.Migrations
                     City = table.Column<string>(nullable: true),
                     ZipCode = table.Column<string>(nullable: true),
                     PickUpDate = table.Column<DateTime>(type: "date", nullable: false),
-                    PickUpTime = table.Column<DateTime>(nullable: false),
+                    PickUpTime = table.Column<TimeSpan>(nullable: false),
                     PickUpComment = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

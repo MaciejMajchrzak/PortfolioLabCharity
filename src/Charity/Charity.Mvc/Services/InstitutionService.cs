@@ -14,13 +14,24 @@ namespace Charity.Mvc.Services
             _context = context;
         }
 
-        public IList<InstitutionSelect1> GetSelect1()
+        public IList<InstitutionSelect1> GetAllSelect1()
         {
             return _context.Institutions
                 .Select(a => new InstitutionSelect1
                 {
                     Name = a.Name,
                     Description = a.Description
+                })
+                .ToList();
+        }
+
+        public IList<InstitutionSelect2> GetAllSelect2()
+        {
+            return _context.Institutions
+                .Select(a => new InstitutionSelect2
+                {
+                    Id = a.Id,
+                    Name = a.Name
                 })
                 .ToList();
         }
