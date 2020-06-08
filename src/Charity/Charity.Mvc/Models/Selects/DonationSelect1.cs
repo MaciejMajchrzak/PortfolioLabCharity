@@ -1,29 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Charity.Mvc.Models.CharityDonation
+namespace Charity.Mvc.Models.Selects
 {
-    public class Donation
+    public class DonationSelect1
     {
-        public int Id { get; set; }
         public int Quantity { get; set; }
-        
-        [ForeignKey("Institution")]
         public int InstitutionId { get; set; }
-        public Institution Institution { get; set; }
-
         public string Street { get; set; }
         public string City { get; set; }
         public string ZipCode { get; set; }
-        
-        [Column(TypeName = "date")]
         public DateTime PickUpDate { get; set; }
-        
         public TimeSpan PickUpTime { get; set; }
-        
         public string PickUpComment { get; set; }
-
-        public ICollection<CategoryDonation> CategoryDonations { get; set; }
+        public string Phone { get; set; }
+        
+        public List<CategorySelect2> Categorys { get; set; }
     }
 }

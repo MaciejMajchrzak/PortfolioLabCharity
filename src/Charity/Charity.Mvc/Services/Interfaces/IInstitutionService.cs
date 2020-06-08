@@ -5,6 +5,7 @@ namespace Charity.Mvc.Services.Interfaces
 {
     public interface IInstitutionService
     {
-        IList<InstitutionSelect1> GetSelect1();
+        IList<InstitutionSelect1> GetAllSelect1();
+        IList<InstitutionSelect2> GetAllSelect2();
     }
 }

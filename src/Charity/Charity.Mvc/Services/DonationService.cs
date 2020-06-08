@@ -1,4 +1,5 @@
-﻿using Charity.Mvc.Services.Interfaces;
+﻿using Charity.Mvc.Models.CharityDonation;
+using Charity.Mvc.Services.Interfaces;
 using System.Linq;
 
 namespace Charity.Mvc.Services
@@ -25,6 +26,13 @@ namespace Charity.Mvc.Services
                 .Select(a => a.InstitutionId)
                 .Distinct()
                 .Count();
+        }
+
+        public bool Create(Donation donation)
+        {
+            _context.Donations.Add(donation);
+
+            return _context.SaveChanges() > 0;
         }
     }
 }

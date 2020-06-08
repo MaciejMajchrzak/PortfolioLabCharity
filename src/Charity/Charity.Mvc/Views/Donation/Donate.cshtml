@@ -1,0 +1,385 @@
+﻿@model Charity.Mvc.Models.Views.DonationDonate
+@using Charity.Mvc.Models.Selects
+
+@{
+    ViewData["Title"] = "Donate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header class="header--form-page">
+    @await Html.PartialAsync("_LayoutNav")
+
+    <div class="slogan container container--90">
+        <div class="slogan--item">
+            <h1>
+                Oddaj rzeczy, których już nie chcesz<br />
+                <span class="uppercase">potrzebującym</span>
+            </h1>
+
+            <div class="slogan--steps">
+                <div class="slogan--steps-title">Wystarczą 4 proste kroki:</div>
+                <ul class="slogan--steps-boxes">
+                    <li>
+                        <div><em>1</em><span>Wybierz rzeczy</span></div>
+                    </li>
+                    <li>
+                        <div><em>2</em><span>Spakuj je w worki</span></div>
+                    </li>
+                    <li>
+                        <div><em>3</em><span>Wybierz fundację</span></div>
+                    </li>
+                    <li>
+                        <div><em>4</em><span>Zamów kuriera</span></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="form--steps">
+    <div class="form--steps-instructions">
+        <div class="form--steps-container">
+            <h3>Ważne!</h3>
+            <p data-step="1" class="active">
+                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
+                wiedzieć komu najlepiej je przekazać.
+            </p>
+            <p data-step="2">
+                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
+                wiedzieć komu najlepiej je przekazać.
+            </p>
+            <p data-step="3">
+                Wybierz jedną, do
+                której trafi Twoja przesyłka.
+            </p>
+            <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
+        </div>
+    </div>
+
+    <div class="form--steps-container">
+        <div class="form--steps-counter">Krok <span>1</span>/4</div>
+
+        <form asp-controller="Donation" asp-action="DonateConfirmation" method="post">
+            <div data-step="1" class="active">
+                <h3>Zaznacz co chcesz oddać:</h3>
+
+
+                @foreach (var category in Model.Categories)
+                {
+                    Model.Donation.Categorys.Add(new CategorySelect2());
+                    <div class="form-group form-group--checkbox">
+                        <label>
+                            <input asp-for="Donation.Categorys[Model.Categories.IndexOf(category)].Id" class="form-control" type="hidden" value="@category.Id" />
+                            <input asp-for="Donation.Categorys[Model.Categories.IndexOf(category)].Checked" class="form-control" type="checkbox" />
+                            <span class="checkbox"></span>
+                            <span class="description">@category.Name</span>
+                        </label>
+                    </div>
+                }
+
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn next-step">Dalej</button>
+                </div>
+            </div>
+
+            <div data-step="2">
+                <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
+
+                <div class="form-group form-group--inline">
+                    <label>
+                        Liczba 60l worków:
+                        <input asp-for="Donation.Quantity" type="number" class="form-control" \ step="1" min="1" />
+                    </label>
+                </div>
+
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="button" class="btn next-step">Dalej</button>
+                </div>
+            </div>
+
+
+
+            <div data-step="3">
+                <h3>Wybierz organizacje, której chcesz pomóc:</h3>
+
+                @foreach (var institution in Model.Institutions)
+                {
+                    <div class="form-group form-group--checkbox">
+                        <label>
+                            <input asp-for="Donation.InstitutionId" type="radio" value="@institution.Id" class="form-control" />
+                            <span class="checkbox radio"></span>
+                            <span class="description">
+                                <div class="title">@institution.Name</div>
+                                <div class="subtitle">@institution.Description</div>
+                            </span>
+                        </label>
+                    </div>
+                }
+
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="button" class="btn next-step">Dalej</button>
+                </div>
+            </div>
+
+            <div data-step="4">
+                <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
+
+                <div class="form-section form-section--columns">
+                    <div class="form-section--column">
+                        <h4>Adres odbioru</h4>
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Ulica
+                                <input asp-for="Donation.Street" type="text" class="form-control" />
+                            </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Miasto
+                                <input asp-for="Donation.City" type="text" class="form-control" />
+                            </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Kod pocztowy
+                                <input asp-for="Donation.ZipCode" type="text" class="form-control" />
+                            </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Numer telefonu
+                                <input asp-for="Donation.Phone" type="tel" class="form-control" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-section--column">
+                        <h4>Termin odbioru</h4>
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Data
+                                <input asp-for="Donation.PickUpDate" type="date" class="form-control" />
+                            </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Godzina
+                                <input asp-for="Donation.PickUpTime" type="time" class="form-control" />
+                            </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Uwagi dla kuriera
+                                <textarea asp-for="Donation.PickUpComment" rows="5" class="form-control"></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="button" class="btn next-step">Dalej</button>
+                </div>
+            </div>
+
+            <div data-step="5">
+                <h3>Podsumowanie Twojej darowizny</h3>
+
+                <div class="summary">
+                    <div class="form-section">
+                        <h4>Oddajesz:</h4>
+                        <ul>
+                            <li>
+                                <span class="icon icon-bag"></span>
+                                <span class="summary--text"></span>
+                            </li>
+
+                            <li>
+                                <span class="icon icon-hand"></span>
+                                <span class="summary--text"></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="form-section form-section--columns">
+                        <div class="form-section--column">
+                            <h4>Adres odbioru:</h4>
+                            <ul>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                        </div>
+
+                        <div class="form-section--column">
+                            <h4>Termin odbioru:</h4>
+                            <ul>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="submit" class="btn">Potwierdzam</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        const quantity = document.getElementById("Donation_Quantity");
+        const institutions = document.querySelectorAll("#Donation_InstitutionId");
+        const street = document.getElementById("Donation_Street");
+        const city = document.getElementById("Donation_City");
+        const zipCode = document.getElementById("Donation_ZipCode");
+        const pickUpDate = document.getElementById("Donation_PickUpDate");
+        const pickUpTime = document.getElementById("Donation_PickUpTime");
+        const pickUpComment = document.getElementById("Donation_PickUpComment");
+        const phone = document.getElementById("Donation_Phone");
+        const categories = document.querySelectorAll("input[type=checkbox]")
+        let bag = "worków";
+        let checkedCategories = "";
+
+        quantity.addEventListener('change', function () {
+            if (quantity.value == 1) {
+                bag = "worek";
+            }
+            else if (quantity.value >= 5 && quantity.value <= 21) {
+                bag = "worków";
+            }
+            else if (quantity.value % 10 == 2 || quantity.value % 10 == 3 || quantity.value % 10 == 4) {
+                bag = "worki";
+            }
+            else {
+                bag = "worków";
+            }
+            [...document.getElementsByClassName("summary")]
+                .pop()
+                .children[0]
+                .children[1]
+                .children[0]
+                .querySelectorAll("span")[1]
+                .textContent = `${quantity.value} ${bag} ${checkedCategories}`;
+        });
+
+        institutions.forEach(function (element) {
+            element.addEventListener('change', function () {
+                [...document.getElementsByClassName("summary")]
+                    .pop()
+                    .children[0]
+                    .children[1]
+                    .children[1]
+                    .querySelectorAll("span")[1]
+                    .textContent = element
+                        .nextSibling
+                        .nextSibling
+                        .nextSibling
+                        .nextSibling
+                        .children[0]
+                        .textContent;
+            });
+        });
+
+        street.addEventListener('change', function () {
+            [...document.getElementsByClassName("summary")]
+                .pop()
+                .children[1]
+                .children[0]
+                .children[1]
+                .children[1]
+                .textContent = street.value;
+        });
+
+        city.addEventListener('change', function () {
+            [...document.getElementsByClassName("summary")]
+                .pop()
+                .children[1]
+                .children[0]
+                .children[1]
+                .children[0]
+                .textContent = city.value;
+        });
+
+        zipCode.addEventListener('change', function () {
+            [...document.getElementsByClassName("summary")]
+                .pop()
+                .children[1]
+                .children[0]
+                .children[1]
+                .children[2]
+                .textContent = zipCode.value;
+        });
+
+        pickUpDate.addEventListener('change', function () {
+            [...document.getElementsByClassName("summary")]
+                .pop()
+                .children[1]
+                .children[1]
+                .children[1]
+                .children[0]
+                .textContent = pickUpDate.value;
+        });
+
+        pickUpTime.addEventListener('change', function () {
+            [...document.getElementsByClassName("summary")]
+                .pop()
+                .children[1]
+                .children[1]
+                .children[1]
+                .children[1]
+                .textContent = pickUpTime.value;
+        });
+
+        pickUpComment.addEventListener('change', function () {
+            [...document.getElementsByClassName("summary")]
+                .pop()
+                .children[1]
+                .children[1]
+                .children[1]
+                .children[2]
+                .textContent = pickUpComment.value;
+        });
+
+        phone.addEventListener('change', function () {
+            [...document.getElementsByClassName("summary")]
+                .pop()
+                .children[1]
+                .children[0]
+                .children[1]
+                .children[3]
+                .textContent = phone.value;
+        });
+
+        categories.forEach(function (element) {
+            element.addEventListener('change', function () {
+                checkedCategories = "";
+                categories.forEach(function (element) {
+                    if (element.checked == true) {
+                        checkedCategories += `${element.nextSibling.nextSibling.nextSibling.nextSibling.textContent} `;
+                    }
+                });
+                [...document.getElementsByClassName("summary")]
+                    .pop()
+                    .children[0]
+                    .children[1]
+                    .children[0]
+                    .querySelectorAll("span")[1]
+                    .textContent = `${quantity.value} ${bag} ${checkedCategories}`;
+            });
+        });
+    });
+</script>

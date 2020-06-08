@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Charity.Mvc.Migrations
 {
     [DbContext(typeof(CharityDonationContext))]
-    [Migration("20200605134809_InitialCreate")]
+    [Migration("20200605204756_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,7 +68,7 @@ namespace Charity.Mvc.Migrations
                     b.Property<DateTime>("PickUpDate")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("PickUpTime");
+                    b.Property<TimeSpan>("PickUpTime");
 
                     b.Property<int>("Quantity");
 

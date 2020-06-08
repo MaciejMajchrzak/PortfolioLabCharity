@@ -24,7 +24,7 @@ namespace Charity.Mvc.Controllers
 			HomeIndex homeIndex = new HomeIndex()
 			{
 				CompletedBags = _donationService.CountOfCompletedBags(),
-				Institutions = _institutionService.GetSelect1().ToList(),
+				Institutions = _institutionService.GetAllSelect1().ToList(),
 				SupportedOrganizations = _donationService.CountOfSupportedOrganizations()
 			};
 

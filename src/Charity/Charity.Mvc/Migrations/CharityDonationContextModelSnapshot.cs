@@ -66,7 +66,7 @@ namespace Charity.Mvc.Migrations
                     b.Property<DateTime>("PickUpDate")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("PickUpTime");
+                    b.Property<TimeSpan>("PickUpTime");
 
                     b.Property<int>("Quantity");
 
