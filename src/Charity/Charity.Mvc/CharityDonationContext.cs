@@ -12,5 +12,6 @@ namespace Charity.Mvc
         public DbSet<CategoryDonation> CategorysDonations { get; set; }
         public DbSet<Donation> Donations { get; set; }
         public DbSet<Institution> Institutions { get; set; }
+        public new DbSet<User> Users { get; set; }
     }
 }

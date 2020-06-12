@@ -1,15 +1,21 @@
 ﻿<nav class="container container--70">
     <ul class="nav--actions">
-        <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
-        <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
-        <li class="logged-user">
-            Witaj Agata
-            <ul class="dropdown">
-                <li><a href="#">Profil</a></li>
-                <li><a href="#">Moje zbiórki</a></li>
-                <li><a href="#">Wyloguj</a></li>
-            </ul>
-        </li>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li class="logged-user">
+                Witaj
+                <ul class="dropdown">
+                    <li><a href="#">Profil</a></li>
+                    <li><a href="#">Moje zbiórki</a></li>
+                    <li><a asp-controller="Account" asp-action="LogOut">Wyloguj</a></li>
+                </ul>
+            </li>
+        }
+        else
+        {
+            <li><a asp-controller="Account" asp-action="LogIn" class="btn btn--small btn--without-border">Zaloguj</a></li>
+            <li><a asp-controller="Account" asp-action="Register" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+        }
     </ul>
 
     <ul>
@@ -25,9 +31,12 @@
         <li>
             <a asp-controller="Home" asp-action="Index" asp-fragment="help" class="btn btn--without-border">Fundacje i organizacje</a>
         </li>
-        <li>
-            <a asp-controller="Donation" asp-action="Donate" class="btn btn--without-border">Przekaż dary</a>
-        </li>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li>
+                <a asp-controller="Donation" asp-action="Donate" class="btn btn--without-border">Przekaż dary</a>
+            </li>
+        }
         <li>
             <a asp-controller="Home" asp-action="Index" asp-fragment="contact" class="btn btn--without-border">Kontakt</a>
         </li>
