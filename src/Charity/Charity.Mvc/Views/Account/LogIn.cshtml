@@ -1,0 +1,29 @@
+﻿@model Charity.Mvc.Models.Views.AccountLogIn
+@{
+    ViewData["Title"] = "LogIn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header>
+    @await Html.PartialAsync("_LayoutNav")
+</header>
+
+<section class="login-page">
+    <h2>Zaloguj się</h2>
+    <form asp-controller="Account" asp-action="LogIn" method="post">
+        <div class="form-group">
+            <input asp-for="User.UserName" type="email" placeholder="Email" />
+            <span asp-validation-for="User.UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="User.Password" type="password" placeholder="Hasło" />
+            <span asp-validation-for="User.Password" class="text-danger"></span>
+            <a asp-controller="Account" asp-action="RemindPassword" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
+        </div>
+
+        <div class="form-group form-group--buttons">
+            <a asp-controller="Account" asp-action="Register" class="btn btn--without-border">Załóż konto</a>
+            <button class="btn" type="submit">Zaloguj się</button>
+        </div>
+    </form>
+</section>
